@@ -7,13 +7,14 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
     steps:
       - uses: actions/checkout@v4
 
@@ -23,14 +24,23 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: |
-          python -m venv .venv
-          .venv/bin/pip install --upgrade pip
-          .venv/bin/pip install mkdocs-material
+        run: pip install mkdocs-material
 
       - name: Build documentation
-        run: .venv/bin/mkdocs build --strict
+        run: mkdocs build --strict
 
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: site/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
       - name: Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: .venv/bin/mkdocs gh-deploy --force
+        id: deployment
+        uses: actions/deploy-pages@v4
