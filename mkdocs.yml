@@ -18,6 +18,8 @@ theme:
 nav:
   - Home: index.md
   - About: about/index.md
+  - Maintenance:
+    - Battery Maintenance: maintenance/battery-maintenance.md
 
 markdown_extensions:
   - pymdownx.highlight:
