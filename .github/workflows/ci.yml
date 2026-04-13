@@ -1,0 +1,32 @@
+name: ci
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m venv .venv
+          .venv/bin/pip install --upgrade pip
+          .venv/bin/pip install mkdocs-material
+
+      - name: Build documentation
+        run: .venv/bin/mkdocs build --strict
+
+      - name: Deploy to GitHub Pages
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: .venv/bin/mkdocs gh-deploy --force

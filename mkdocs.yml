@@ -1,6 +1,6 @@
 site_name: "Aetherwings — Drone Taxi Operations Manual"
 site_description: "Official operations and safety manual for the Aetherwings autonomous urban air mobility fleet."
-site_url: "https://oliver-koeth.github.io/drone-taxi-manual"
+site_url: "https://oliver-koeth.github.io/drone-taxi-manual/"
 
 repo_name: "oliver-koeth/drone-taxi-manual"
 repo_url: "https://github.com/oliver-koeth/drone-taxi-manual"
